@@ -7,6 +7,8 @@ TYPESCRIPT_CLIENT_TARGET="$CLIENT_TARGET/typescript"
 
 read -r -d '' CMD <<- EOM
   protoc --go_out=plugins=grpc:$SERVER_TARGET \
+      --plugin=protoc-gen-grpc=bins/opt/grpc_php_plugin \
+      --php_out=$PHP_CLIENT_TARGET \
       --plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts \
       --ts_out=service=grpc-web:$TYPESCRIPT_CLIENT_TARGET \
       --js_out=import_style=commonjs,binary:$TYPESCRIPT_CLIENT_TARGET \
