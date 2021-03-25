@@ -1,4 +1,4 @@
-# protoc-compiler
+# protobuf-compiler
 
 This Dockerfile build a protoc compiler image for golang as server, commonjs and typescript as client.
 
@@ -12,10 +12,22 @@ docker build -t ${docker-repo/image-name} .
 If the proto files within current directory
 ```shell script
 docker run --rm -it -v $PWD/proto:/code/proto ${docker-repo/image-name}
-docker run --rm -it -v $PWD/proto:/code/proto -v $PWD/test:/code/server -v $PWD/test-client:/code/client monstrum/protobuf-compiler
 ```
 
-##Example using this image
+## Example using this image
 ```shell script
-docker run --rm -it -v $PWD/proto:/code/proto monstrum/protoc-compiler
+cd server/proto
+protoc-go-inject-tag -input=./taxonomy.pb.go
+```
+
+# Example for `monstrum/protobuf-compiler`
+```shell script
+# Build
+docker build -t monstrum/protobuf-compiler .
+
+# Usage
+docker run --rm -it -v $PWD/proto:/code/proto -v $PWD/server:/code/server -v $PWD/client:/code/client monstrum/protobuf-compiler
+
+# Or bash into the container
+docker run --rm -it -v $PWD/proto:/code/proto -v $PWD/server:/code/server -v $PWD/client:/code/client --entrypoint bash monstrum/protobuf-compiler
 ```
