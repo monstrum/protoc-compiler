@@ -2,7 +2,7 @@ FROM golang:1.16.2
 
 MAINTAINER "monstrum"
 
-RUN mkdir /code /server /client /client/commonjs /client/typescript
+RUN mkdir /code /server /client /client/typescript /client/php
 
 WORKDIR /code
 

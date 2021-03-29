@@ -15,21 +15,26 @@ read -r -d '' CMD <<- EOM
       $(find "$@" -iname "*.proto")
 EOM
 
-INJECT_CMD="protoc-go-inject-tag "
-GO_GENERATED_FILES=$(find "$SERVER_TARGET/proto" -iname "*.pb.go")
-
-for GO_FILE_PATH in $GO_GENERATED_FILES
-do
-  INJECT_CMD="$INJECT_CMD -input=$GO_FILE_PATH"
-done
-
 mkdir -p "$SERVER_TARGET" \
   "$CLIENT_TARGET" \
   "$TYPESCRIPT_CLIENT_TARGET" \
   "$PHP_CLIENT_TARGET"
 
 # Generate protoc server & clients
+echo "Generating protoc server & clients"
 $($CMD)
+echo "Protoc server & clients generated"
 
+echo "Sleep 5s ..."
+sleep 10
+
+GO_GENERATED_FILES=$(find "$SERVER_TARGET/proto" -iname "*.pb.go")
 # Inject tags to generated go files
-$($INJECT_CMD)
+echo "Inject tags to generated go files"
+for GO_FILE_PATH in $GO_GENERATED_FILES
+do
+  INJECT_CMD="protoc-go-inject-tag -input=$GO_FILE_PATH"
+  $($INJECT_CMD)
+done
+echo "Tags injected"
+

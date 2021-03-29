@@ -31,3 +31,11 @@ docker run --rm -it -v $PWD/proto:/code/proto -v $PWD/server:/code/server -v $PW
 # Or bash into the container
 docker run --rm -it -v $PWD/proto:/code/proto -v $PWD/server:/code/server -v $PWD/client:/code/client --entrypoint bash monstrum/protobuf-compiler
 ```
+
+# Testing script `protoc.sh`
+```shell script
+# Or bash into the container
+docker run --rm -it -v $PWD/protoc.sh:/code/protoc.sh -v $PWD/proto:/code/proto -v $PWD/server:/code/server -v $PWD/client:/code/client --entrypoint bash monstrum/protobuf-compiler
+
+./protoc.sh ./proto
+```
