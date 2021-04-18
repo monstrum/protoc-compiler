@@ -6,10 +6,13 @@ PHP_CLIENT_TARGET="$CLIENT_TARGET/php"
 TYPESCRIPT_CLIENT_TARGET="$CLIENT_TARGET/typescript"
 
 read -r -d '' CMD <<- EOM
-  protoc --go_out=plugins=grpc:$SERVER_TARGET \
-      --plugin=protoc-gen-grpc=bins/opt/grpc_php_plugin \
-      --php_out=$PHP_CLIENT_TARGET \
+  protoc \
+      --proto_path=. \
+      --go_out=plugins=grpc:$SERVER_TARGET \
       --plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts \
+      --plugin=protoc-gen-grpc=/usr/bin/grpc_php_plugin \
+      --grpc_out=$PHP_CLIENT_TARGET \
+      --php_out=$PHP_CLIENT_TARGET \
       --ts_out=service=grpc-web:$TYPESCRIPT_CLIENT_TARGET \
       --js_out=import_style=commonjs,binary:$TYPESCRIPT_CLIENT_TARGET \
       $(find "$@" -iname "*.proto")
@@ -37,4 +40,3 @@ do
   $($INJECT_CMD)
 done
 echo "Tags injected"
-
